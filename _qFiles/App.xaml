@@ -7,16 +7,24 @@
     <Application.Resources>
 
         <Style x:Key="textStyle" TargetType="TextBlock">
+            
+            
             <Setter Property="FontSize" Value="14" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontFamily" Value="Roboto" />
-            <Setter Property="Foreground" Value="#E6E6E6" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="Transparent" />
             
-            
+
 
         </Style>
 
-       
+        <Style x:Key="labelText" TargetType="Label">
+
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            
+            
+        </Style>
 
         <DrawingImage x:Key="user">
             <DrawingImage.Drawing>

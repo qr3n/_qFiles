@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:qFiles"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1200" AllowsTransparency="True" WindowStyle="None" Background="Transparent" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="700" Width="1200" WindowStartupLocation="CenterScreen" >
+
+
 
     <Window.Resources>
         <Style x:Key="scrollBar"
@@ -25,10 +27,8 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Border Grid.Column="1"
-                  BorderThickness="0,1,1,1">
-                                <Border.BorderBrush>
-                                    <SolidColorBrush Color="Transparent" />
-                                </Border.BorderBrush>
+                  BorderThickness="0">
+
                                 <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}" />
                             </Border>
                             <ScrollBar x:Name="PART_VerticalScrollBar"
@@ -53,14 +53,12 @@
 
     </Window.Resources>
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome />
-    </WindowChrome.WindowChrome>
 
 
 
-    <Border CornerRadius="5" Background="#212121" BorderBrush="#575757" BorderThickness="1">
-        <Grid Background="Transparent" Opacity="1">
+
+    <Border Background="White" BorderBrush="White" BorderThickness="4">
+        <Grid Background="Transparent">
 
 
 
@@ -100,45 +98,14 @@
 
             </Grid.RowDefinitions>
 
-            <Button MinWidth="14" MinHeight="14" Width="14" Height="14" Grid.Column="0" Click="CloseWindow" Margin="38,23,21,0">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Fill="#fc5753"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
 
-            <Button MinWidth="14" MinHeight="14" Width="14" Height="14" Grid.Column="0" Click="MinimizeWindow" Margin="58,23,-10,0">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Fill="#fdbc40"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-
-            <Button MinWidth="14" MinHeight="14" Width="14" Height="14" Grid.Column="0" Click="MaximizeWindow" Margin="78,23,-40,0">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Fill="#36c84b"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            
+                
 
 
-            <Image Source="{StaticResource home}" Margin="20" Grid.Row="4" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-            <Image Source="{StaticResource user}" Grid.Row="6" Margin="20" Grid.RowSpan="2" RenderTransformOrigin="0.8,0.652" Grid.ColumnSpan="2"/>
-            <Image Source="{StaticResource p}" Grid.Row="8" Margin="20" Grid.RowSpan="2" RenderTransformOrigin="0.8,0.652" Grid.ColumnSpan="2"/>
-            <Image Source="{StaticResource pc}" Grid.Row="10" Margin="20" Grid.RowSpan="2" RenderTransformOrigin="0.8,0.652" Grid.ColumnSpan="2"/>
-            <Border Grid.Column="2" Grid.ColumnSpan="8" Grid.Row="1" Grid.RowSpan="14" CornerRadius="5" Background="#212121" Margin="10,20,10,20">
+            
+
+            <Border Grid.Column="2" Grid.ColumnSpan="8" Grid.Row="1" Grid.RowSpan="14" CornerRadius="5" Background="White" Margin="10,20,10,20">
                 <Grid>
 
                     <Grid.ColumnDefinitions>
@@ -147,7 +114,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
-                        
+
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
@@ -162,11 +129,12 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Column="4" Margin="38,14,40,14" Click="Back"></Button>
+                    <Button Grid.Column="4" Margin="38,14,40,14" Click="Back" Visibility="Hidden"></Button>
 
-                    <ScrollViewer CanContentScroll="True" Style="{StaticResource scrollBar}" Grid.RowSpan="9" Margin="40" Grid.ColumnSpan="5" BorderBrush="#606060">
+                    <ScrollViewer CanContentScroll="True" Style="{StaticResource scrollBar}" Grid.RowSpan="9" Grid.ColumnSpan="5" BorderBrush="#606060">
 
                         <Grid x:Name="filesWindow" >
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />

@@ -73,7 +73,7 @@ namespace qLib
         public string[] GetDrives(bool f)
         {
             DriveInfo[] allDrives = DriveInfo.GetDrives();
-            if (f == true) {
+            if (f) {
 
                 List<string> drivesList = new List<string>();
                 

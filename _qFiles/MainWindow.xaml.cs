@@ -3,21 +3,18 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
-using System.Diagnostics;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime;
-using System.Linq;
 namespace qFiles
 {
-    
-
     public partial class MainWindow : Window
     {
         Files Files = new Files();
         List<string> places = new List<string>();
+        Style gFolderIcon;
+        Style? styleText;
         
         public Style? gFolderIconStyle;
         public MainWindow()
@@ -27,17 +24,21 @@ namespace qFiles
             
             string[] folders = Files.GetFoldersInDirectory(@"C:\", true);
             string[] files = Files.GetFilesInDirectory(@"C:\", true);
-            Style styleText = this.FindResource("textStyle") as Style;
-            Style folderIcon = this.FindResource("folderIcon") as Style;
+            
 
             places.Add(@"C:\");
-            ShowFiles(folders, files, @"C:\", styleText, folderIcon);
 
+            Style folderIcon = this.FindResource("folderIcon") as Style;
+            gFolderIcon = folderIcon;
+            styleText = this.FindResource("labelText") as Style;
+            
+            ShowFiles(folders, files, @"C:\");
 
         }
 
         public void SelectFolder(object sender, MouseButtonEventArgs e)
         {
+            
             if (e.ClickCount == 2)
             {
                 CdInFolder(sender, e);
@@ -46,20 +47,16 @@ namespace qFiles
 
         public void CdInFolder(object sender, MouseButtonEventArgs e)
         {
-
+            
             filesWindow.Children.Clear();
 
-            Style? folderIcon = this.FindResource("folderIcon") as Style;
-            Style? styleText = this.FindResource("textStyle") as Style;
 
-
-
-            FrameworkElement? tag = e.Source as FrameworkElement;
+            FrameworkElement tag = e.Source as FrameworkElement;
             string[] folders = Files.GetFoldersInDirectory(tag.Tag.ToString(), false);
             string[] files = Files.GetFilesInDirectory(tag.Tag.ToString(), false);
             
 
-            ShowFiles(folders, files, tag.Tag.ToString(), styleText, folderIcon);
+            ShowFiles(folders, files, tag.Tag.ToString());
             
         }
 
@@ -73,7 +70,7 @@ namespace qFiles
                 {
                     filesWindow.Children.Clear();
                     string path = places[places.Count - 2];
-                    Trace.WriteLine(path);
+                    
                     string[] folders = Files.GetFoldersInDirectory(path, false);
                     string[] files = Files.GetFilesInDirectory(path, false);
 
@@ -82,22 +79,19 @@ namespace qFiles
 
                     places.RemoveAt(places.Count - 1);
                     places.RemoveAt(places.Count - 1);
-                    ShowFiles(folders, files, path, styleText, folderIcon);
+                    ShowFiles(folders, files, path);
                 }
                 catch (Exception ex)
                 {
                     filesWindow.Children.Clear();
                     string path = places[places.Count - 2];
-                    Trace.WriteLine(path);
+                    
                     string[] folders = Files.GetFoldersInDirectory(path, true);
                     string[] files = Files.GetFilesInDirectory(path, true);
 
-                    Style? folderIcon = this.FindResource("folderIcon") as Style;
-                    Style? styleText = this.FindResource("textStyle") as Style;
-
                     places.RemoveAt(places.Count - 1);
 
-                    ShowFiles(folders, files, path, styleText, folderIcon);
+                    ShowFiles(folders, files, path);
                 }
 
 
@@ -108,41 +102,33 @@ namespace qFiles
             {
 
             }
-
-                
-            
-
-            
-
-
-
         }
 
 
-        void ShowDrives(string[] drives)
+        void ShowDrives(Style textStyle, Style folderIconStyle)
         {
             filesWindow.Children.Clear();
-            RowDefinition rowDefinition = new RowDefinition();
-            filesWindow.RowDefinitions.Add(rowDefinition);
-
+            string[] drivesPaths = Files.GetDrives(true);
+            string[] drivesLabels = Files.GetDrives(false);
         }
 
        
-        void ShowFiles(string[] folders, string[] files, string path, Style textStyle, Style folderIconStyle)
+        void ShowFiles(string[] folders, string[] files, string path)
         {
+            filesWindow.RowDefinitions.Clear();
             places.Add(path);
             path = path + @"\";
-            Trace.WriteLine(path);
             int i = 0;
             foreach (string folder in folders)
             {
 
                 RowDefinition rowDefinition = new RowDefinition();
                 filesWindow.RowDefinitions.Add(rowDefinition);
+                rowDefinition.MaxHeight = 60;
 
-                TextBlock folderLabel = new TextBlock();
-                folderLabel.Text = folder;
-                folderLabel.Style = textStyle;
+                Label folderLabel = new Label();
+                folderLabel.Content = folder;
+                folderLabel.Style = styleText;
                 filesWindow.Children.Add(folderLabel);
                 folderLabel.SetValue(Grid.RowProperty, i);
                 folderLabel.SetValue(Grid.ColumnProperty, 1);
@@ -151,8 +137,8 @@ namespace qFiles
                 folderLabel.Tag = path + folder;
 
                 System.Windows.Controls.Image folderIcon = new System.Windows.Controls.Image();
+                folderIcon.Style = gFolderIcon;
                 folderIcon.Margin = new Thickness(10);
-                folderIcon.Style = folderIconStyle;
                 filesWindow.Children.Add(folderIcon);
                 folderIcon.SetValue(Grid.RowProperty, i);
 
@@ -167,10 +153,11 @@ namespace qFiles
             {
                 RowDefinition rowDefinition = new RowDefinition();
                 filesWindow.RowDefinitions.Add(rowDefinition);
+                rowDefinition.MaxHeight = 60;
 
-                TextBlock fileLabel = new TextBlock();
-                fileLabel.Text = file;
-                fileLabel.Style = textStyle;
+                Label fileLabel = new Label();
+                fileLabel.Content = file;
+                fileLabel.Style = styleText;
                 filesWindow.Children.Add(fileLabel);
                 fileLabel.SetValue(Grid.RowProperty, i);
                 fileLabel.SetValue(Grid.ColumnProperty, 1);
@@ -194,29 +181,6 @@ namespace qFiles
 
         }
 
-        
-
-        void CloseWindow(object sender, RoutedEventArgs eventArguments)
-        {
-            Close();
-        }
-
-        void MinimizeWindow(object sender, RoutedEventArgs eventArguments)
-        {
-            WindowState = WindowState.Minimized;
-
-        }
-
-        void MaximizeWindow(object sender, RoutedEventArgs eventArguments)
-        {
-            WindowState = WindowState.Maximized;
-
-        }
-
-        private void Button_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 
 
